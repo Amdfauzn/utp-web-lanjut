@@ -28,7 +28,7 @@
 
         /* Active/current link */
         .sidebar a.active {
-        background-color:rgb(57, 234, 169);
+        background-color:rgb(59, 225, 164);
         color: white;
         }
 
@@ -95,7 +95,7 @@
         <a href="{{ url('courses') }}">Course</a>
         <a href="{{ url('batches') }}">Batches</a>
         <a href="{{ url('enrollments') }}">Enrollment</a>
-        <a href="#contact">Payment</a>
+        <a href="{{ url('payments') }}">Payment</a>
         </div>
     </div>
     <div class="col-md-9">
