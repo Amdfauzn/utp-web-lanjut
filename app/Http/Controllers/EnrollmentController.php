@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Response;
 use App\Models\Enrollment;
+use App\Models\Student;
+use App\Models\Batch;
 use Illuminate\View\View;
 
 class EnrollmentController extends Controller
@@ -24,7 +26,10 @@ class EnrollmentController extends Controller
      */
     public function create(): View
     {
-        return view('enrollments.create');
+        $batches = Batch::pluck('name','id');
+        $students = Student::pluck('name','id');
+        return view('enrollments.create', compact('batches','students'));
+        
     }
 
     /**
