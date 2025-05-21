@@ -28,7 +28,7 @@
 
         /* Active/current link */
         .sidebar a.active {
-        background-color:rgb(114, 234, 190);
+        background-color: #04AA6D;
         color: white;
         }
 
@@ -71,13 +71,19 @@
 
 </head>
 <body>
+    
+<div class="container">
+    <div class = "row">
+        <div class="col-md 12">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"><h2>Student Management Project</h2></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-@@ -20,8 +84,26 @@
     </nav>
     </div>
     </div>
-
-</div>
      
     <div class="row">
     <div class="col-md 3">
@@ -91,13 +97,14 @@
         <a href="#contact">Payment</a>
         </div>
     </div>
-    <div class="col-md 9">
-        <!-- Page content -->
-        <div class="content">
+    <div class="col-md-9">
+       
                      @yield('content')
         </div>
+
     </div>
-        </div>
+        
+</div>
 
 </body>
 </html>
