@@ -66,7 +66,7 @@ class BatchController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
         Batch::destroy($id);
         return redirect('batches')->with('flash_message', 'Batch deleted!');
