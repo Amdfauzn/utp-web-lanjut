@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\View\View;
 use App\Models\Teacher;
-
-
 
 class TeacherController extends Controller
 {
@@ -18,7 +15,7 @@ class TeacherController extends Controller
     public function index(): View
     {
         $teachers = Teacher::all();
-        return view ('teachers.index')->with('teachers', $teachers);
+        return view('teachers.index', compact('teachers'));
     }
 
     /**
@@ -27,18 +24,23 @@ class TeacherController extends Controller
     public function create(): View
     {
         return view('teachers.create');
-       
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) : RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $input = $request->all();
-        Teacher::create($input);
-        return redirect('teachers')->with('flash_message', 'teacher Addedd!');
-        
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'nip' => 'required|string|max:50|unique:teachers,nip',
+            'email' => 'required|email|unique:teachers,email',
+            // tambahkan validasi lain sesuai kolom
+        ]);
+
+        Teacher::create($request->all());
+
+        return redirect()->route('teachers.index')->with('flash_message', 'Teacher Added!');
     }
 
     /**
@@ -46,27 +48,35 @@ class TeacherController extends Controller
      */
     public function show(string $id): View
     {
-        $teachers = Teacher::find($id);
-        return view('teachers.show')->with('teachers', $teachers);
+        $teacher = Teacher::findOrFail($id);
+        return view('teachers.show', compact('teacher'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id): View
-{
-    $teacher = Teacher::find($id);
-    return view('teachers.edit')->with('teacher', $teacher);
-}
+    {
+        $teacher = Teacher::findOrFail($id);
+        return view('teachers.edit', compact('teacher'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id): RedirectResponse
     {
-        $teacher = Teacher::find($id);
-        $input = $request->all();
-        $teacher->update($input);
-        return redirect('teachers')->with('flash_message', 'teacher Updated!');  
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'nip' => 'required|string|max:50|unique:teachers,nip,' . $id,
+            'email' => 'required|email|unique:teachers,email,' . $id,
+            // validasi lain jika perlu
+        ]);
+
+        $teacher = Teacher::findOrFail($id);
+        $teacher->update($request->all());
+
+        return redirect()->route('teachers.index')->with('flash_message', 'Teacher Updated!');
     }
 
     /**
@@ -75,6 +85,6 @@ class TeacherController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         Teacher::destroy($id);
-        return redirect('teachers')->with('flash_message', 'teacher deleted!'); 
+        return redirect()->route('teachers.index')->with('flash_message', 'Teacher Deleted!');
     }
 }
